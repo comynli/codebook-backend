@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: build-task-2
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: default
+      containers:
+      - name: buildah
+        image: hub.mindcube.xyz/base/buildah:bullseye-1.1
+        command: ["/usr/local/bin/build.sh",  "git@git.mindcube.xyz:comyn/helloworld4.git", "hub.mindcube.xyz/app/helloworld:1.4.0"]
+        resources:
+          limits:
+            cpu: 200m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 400Mi
+        env:
+        - name: REGISTRY_AUTH_FILE
+          value: /tmp/dockerconfig.json
+        volumeMounts:
+        - name: dockerconfig
+          mountPath: /tmp
+          readOnly: true
+        - name: ssh
+          mountPath: /root/.ssh
+          readOnly: true
+      restartPolicy: Never
+      volumes:
+      - name: dockerconfig
+        secret:
+          secretName: default
+          optional: false
+          items:
+          - key: .dockerconfigjson
+            path: dockerconfig.json
+      - name: ssh
+        secret:
+          secretName: ssh
+          defaultMode: 256
+          items:
+          - key: id_rsa
+            path: id_rsa
+          - key: known_hosts
+            path: known_hosts
+  backoffLimit: 0
+
+

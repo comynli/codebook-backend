@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "codebook"
+version = "0.1.0"
+description = ""
+authors = ["Comyn Li <comynli@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.1.3"
+ansible-runner = "^2.3.1"
+djangorestframework = "^3.14.0"
+drf-spectacular = "^0.24.2"
+gitpython = "^3.1.29"
+celery = {version = "^5.2.7", extras = ["redis"]}
+django-celery-results = "^2.4.0"
+django-celery-beat = "^2.4.0"
+redis = "^4.3.5"
+channels = "^3.0"
+channels-redis = "^3.4"
+kubernetes = "^25.3.0"
+git-url-parse = "^1.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.6.0"
+ansible = "^6.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "tencent"
+url = "https://mirrors.cloud.tencent.com/pypi/simple/"
+default = true
